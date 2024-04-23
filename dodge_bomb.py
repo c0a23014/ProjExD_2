@@ -14,6 +14,12 @@ delta = {
 }
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+def bombom():
+    for i in range(1,11):
+        bd_img = pg.Surface((20+i, 20+i))
+        bd_img.set_colorkey((0, 0, 0))
+        pg.draw.circle(bd_img, (255, 0, 0), (10, 10), 10)
+
 def gameover():                             #演習のための関数
     fonto = pg.font.Font(None, 80)          #爆破された後にデスログが出る
     pienton = pg.image.load("fig/8.png")
@@ -52,7 +58,6 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
-                return 
         if kk_rct.colliderect(bd_rct):
             print("Game Over")
             bout = pg.Surface((1600,900))                 #スクリーンをブラックアウトさせる
