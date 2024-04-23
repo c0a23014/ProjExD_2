@@ -2,6 +2,7 @@ import os
 import sys
 import random
 import pygame as pg
+import time
 
 
 WIDTH, HEIGHT = 1600, 900
@@ -13,6 +14,13 @@ delta = {
 }
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+def gameover():
+    fonto = pg.font.Font(None, 80)
+    pienton = pg.image.load("fig/8.png")
+    txt = fonto.render("Game over",
+    True, (255,255,255))
+    return txt
+    
 def check_bound(obj_rct:pg.Rect) -> tuple[bool, bool]:
     yoko, tate = True, True
     if obj_rct.left < 0 or WIDTH < obj_rct.right: 
@@ -32,9 +40,11 @@ def main():
     bd_img = pg.Surface((20, 20))
     bd_img.set_colorkey((0, 0, 0))
     pg.draw.circle(bd_img, (255, 0, 0), (10, 10), 10)
+    pienton = pg.image.load("fig/8.png")
     bd_rct = bd_img.get_rect()
     bd_rct.center = random.randint(0, WIDTH), random.randint(0, HEIGHT)
     vx, vy = +5, +5
+    txt = gameover()
 
     tmr = 0
     while True:
@@ -42,8 +52,18 @@ def main():
             if event.type == pg.QUIT: 
                 return
                 return 
-        if kk_rct.colliderect(bd_rct): 
+        if kk_rct.colliderect(bd_rct):
             print("Game Over")
+            bout = pg.Surface((1600,900))
+            pg.draw.rect(bout,(0,0,0),(0,0,1600,900))
+            bout.set_alpha(200)
+            screen.blit(bout, [0,0])
+            screen.blit(txt, [650, 450])
+            screen.blit(pienton, [600,450])
+            screen.blit(pienton, [950,450])
+            pg.display.update()
+            time.sleep(5)
+
             return
         screen.blit(bg_img, [0, 0]) 
 
@@ -53,9 +73,9 @@ def main():
             if key_lst[k]:
                 sum_mv[0] += v[0]
                 sum_mv[1] += v[1]
+        kk_rct.move_ip(sum_mv)
         if check_bound(kk_rct) != (True, True):
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
-        kk_rct.move_ip(sum_mv)
         screen.blit(kk_img, kk_rct)
         screen.blit(kk_img, kk_rct)
         bd_rct.move_ip(vx, vy)       
