@@ -41,6 +41,10 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
+                return 
+        if kk_rct.colliderect(bd_rct): 
+            print("Game Over")
+            return
         screen.blit(bg_img, [0, 0]) 
 
         key_lst = pg.key.get_pressed()
@@ -57,9 +61,9 @@ def main():
         bd_rct.move_ip(vx, vy)       
         screen.blit(bd_img, bd_rct)
         yoko, tate = check_bound(bd_rct)
-        if not yoko:  # 横方向にはみ出てたら
+        if not yoko: 
             vx *= -1
-        if not tate:  # 縦方向にはみ出てたら
+        if not tate: 
             vy *= -1
         tmr += 1
         clock.tick(50)
