@@ -13,6 +13,13 @@ delta = {
 }
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+def check_bound(obj_rct:pg.Rect) -> tuple[bool, bool]:
+    yoko, tate = True, True
+    if obj_rct.left < 0 or WIDTH < obj_rct.right: 
+        yoko = False
+    if obj_rct.top < 0 or HEIGHT < obj_rct.bottom:
+        tate = False
+    return yoko, tate
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -42,11 +49,18 @@ def main():
             if key_lst[k]:
                 sum_mv[0] += v[0]
                 sum_mv[1] += v[1]
+        if check_bound(kk_rct) != (True, True):
+            kk_rct.move_ip(-sum_mv[0], -sum_mv[1])
         kk_rct.move_ip(sum_mv)
         screen.blit(kk_img, kk_rct)
         screen.blit(kk_img, kk_rct)
         bd_rct.move_ip(vx, vy)       
         screen.blit(bd_img, bd_rct)
+        yoko, tate = check_bound(bd_rct)
+        if not yoko:  # 横方向にはみ出てたら
+            vx *= -1
+        if not tate:  # 縦方向にはみ出てたら
+            vy *= -1
         tmr += 1
         clock.tick(50)
         pg.display.update()
