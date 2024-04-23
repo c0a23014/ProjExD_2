@@ -14,8 +14,8 @@ delta = {
 }
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-def gameover():
-    fonto = pg.font.Font(None, 80)
+def gameover():                             #演習のための関数
+    fonto = pg.font.Font(None, 80)          #爆破された後にデスログが出る
     pienton = pg.image.load("fig/8.png")
     txt = fonto.render("Game over",
     True, (255,255,255))
@@ -37,9 +37,10 @@ def main():
     kk_rct = kk_img.get_rect()
     kk_rct.center = 900, 400
     clock = pg.time.Clock()
-    bd_img = pg.Surface((20, 20))
-    bd_img.set_colorkey((0, 0, 0))
-    pg.draw.circle(bd_img, (255, 0, 0), (10, 10), 10)
+    for i in range(1,11):
+        bd_img = pg.Surface((20+i, 20+i))
+        bd_img.set_colorkey((0, 0, 0))
+        pg.draw.circle(bd_img, (255, 0, 0), (10, 10), 10)
     pienton = pg.image.load("fig/8.png")
     bd_rct = bd_img.get_rect()
     bd_rct.center = random.randint(0, WIDTH), random.randint(0, HEIGHT)
@@ -54,12 +55,12 @@ def main():
                 return 
         if kk_rct.colliderect(bd_rct):
             print("Game Over")
-            bout = pg.Surface((1600,900))
+            bout = pg.Surface((1600,900))                 #スクリーンをブラックアウトさせる
             pg.draw.rect(bout,(0,0,0),(0,0,1600,900))
             bout.set_alpha(200)
             screen.blit(bout, [0,0])
             screen.blit(txt, [650, 450])
-            screen.blit(pienton, [600,450])
+            screen.blit(pienton, [600,450])               #泣いてるこうかとん（ぴえんとん）を出す
             screen.blit(pienton, [950,450])
             pg.display.update()
             time.sleep(5)
